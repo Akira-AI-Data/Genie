@@ -72,7 +72,7 @@ export function ChatInput() {
 
     let convId = activeConversationId;
     if (!convId) {
-      convId = createConversation(selectedModel);
+      convId = await createConversation(selectedModel);
     }
 
     const userMessage: Message = {

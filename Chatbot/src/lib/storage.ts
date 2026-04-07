@@ -1,27 +1,7 @@
-import { Conversation, Model } from '@/types';
+import { Model } from '@/types';
 
-const CONVERSATIONS_KEY = 'chatbot-conversations';
 const MODEL_KEY = 'chatbot-model';
 const THEME_KEY = 'chatbot-theme';
-
-export function saveConversations(conversations: Conversation[]): void {
-  if (typeof window === 'undefined') return;
-  try {
-    localStorage.setItem(CONVERSATIONS_KEY, JSON.stringify(conversations));
-  } catch {
-    console.warn('Failed to save conversations to localStorage');
-  }
-}
-
-export function loadConversations(): Conversation[] {
-  if (typeof window === 'undefined') return [];
-  try {
-    const data = localStorage.getItem(CONVERSATIONS_KEY);
-    return data ? JSON.parse(data) : [];
-  } catch {
-    return [];
-  }
-}
 
 export function saveModel(model: Model): void {
   if (typeof window === 'undefined') return;

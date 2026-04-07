@@ -46,7 +46,7 @@ export function ChatContainer() {
   const handleSuggestionClick = async (text: string) => {
     let convId = activeConversationId;
     if (!convId) {
-      convId = createConversation(selectedModel);
+      convId = await createConversation(selectedModel);
     }
 
     const { v4: uuidv4 } = await import('uuid');

@@ -1,5 +1,6 @@
 import Anthropic from '@anthropic-ai/sdk';
 import { NextRequest } from 'next/server';
+import { auth } from '@/lib/auth';
 
 const anthropic = new Anthropic({
   apiKey: process.env.ANTHROPIC_API_KEY,
@@ -7,6 +8,11 @@ const anthropic = new Anthropic({
 
 export async function POST(req: NextRequest) {
   try {
+    const session = await auth();
+    if (!session?.user?.id) {
+      return new Response('Unauthorized', { status: 401 });
+    }
+
     const { messages, model } = await req.json();
 
     if (!messages || !Array.isArray(messages) || messages.length === 0) {

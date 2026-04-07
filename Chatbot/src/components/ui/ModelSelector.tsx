@@ -1,26 +1,21 @@
 'use client';
 
 import { useState, useRef, useEffect } from 'react';
-import { ChevronDown, Zap, Brain, Sparkles } from 'lucide-react';
+import { ChevronDown, Zap, Sparkles } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { useUIStore } from '@/stores/uiStore';
 import { Model, MODEL_LABELS } from '@/types';
 
 const MODEL_OPTIONS: { model: Model; icon: React.ReactNode; description: string }[] = [
   {
-    model: 'claude-opus-4-20250514',
-    icon: <Brain className="w-4 h-4" />,
-    description: 'Most capable, best for complex tasks',
-  },
-  {
     model: 'claude-sonnet-4-20250514',
     icon: <Sparkles className="w-4 h-4" />,
-    description: 'Balanced speed and intelligence',
+    description: 'Most capable, best for complex tasks',
   },
   {
     model: 'claude-haiku-4-5-20251001',
     icon: <Zap className="w-4 h-4" />,
-    description: 'Fastest, great for simple tasks',
+    description: 'Fast and efficient for everyday tasks',
   },
 ];
 

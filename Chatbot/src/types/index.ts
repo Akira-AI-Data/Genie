@@ -1,14 +1,12 @@
 export type Role = 'user' | 'assistant';
 
 export type Model =
-  | 'claude-opus-4-20250514'
   | 'claude-sonnet-4-20250514'
   | 'claude-haiku-4-5-20251001';
 
 export const MODEL_LABELS: Record<Model, string> = {
-  'claude-opus-4-20250514': 'Claude Opus',
-  'claude-sonnet-4-20250514': 'Claude Sonnet',
-  'claude-haiku-4-5-20251001': 'Claude Haiku',
+  'claude-sonnet-4-20250514': 'Max',
+  'claude-haiku-4-5-20251001': 'Pro',
 };
 
 export interface FileAttachment {
