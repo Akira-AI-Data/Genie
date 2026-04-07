@@ -21,7 +21,7 @@ export async function POST(req: NextRequest) {
 
     // Build Anthropic messages format
     const anthropicMessages = messages.map(
-      (msg: { role: string; content: string; files?: { type: string; content: string }[] }) => {
+      (msg: { role: string; content: string; files?: { name: string; type: string; content: string }[] }) => {
         if (msg.files && msg.files.length > 0 && msg.role === 'user') {
           const content: Anthropic.MessageCreateParams['messages'][0]['content'] = [];
 
@@ -35,10 +35,33 @@ export async function POST(req: NextRequest) {
                   data: file.content,
                 },
               });
+            } else if (file.type === 'application/pdf') {
+              content.push({
+                type: 'document',
+                source: {
+                  type: 'base64',
+                  media_type: 'application/pdf',
+                  data: file.content,
+                },
+              } as Anthropic.DocumentBlockParam);
+            } else {
+              // Text-based files: decode base64 and include as text
+              try {
+                const decoded = Buffer.from(file.content, 'base64').toString('utf-8');
+                content.push({
+                  type: 'text',
+                  text: `--- File: ${file.name} ---\n${decoded}\n--- End of file ---`,
+                });
+              } catch {
+                content.push({
+                  type: 'text',
+                  text: `[Could not read file: ${file.name}]`,
+                });
+              }
             }
           }
 
-          content.push({ type: 'text', text: msg.content || 'What is in this image?' });
+          content.push({ type: 'text', text: msg.content || 'Please review the attached file(s).' });
           return { role: msg.role as 'user' | 'assistant', content };
         }
 
