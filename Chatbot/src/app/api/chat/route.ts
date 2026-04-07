@@ -69,11 +69,17 @@ export async function POST(req: NextRequest) {
       }
     );
 
+    const today = new Date().toLocaleDateString('en-US', {
+      weekday: 'long',
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric',
+    });
+
     const stream = anthropic.messages.stream({
       model: model || 'claude-sonnet-4-20250514',
-      max_tokens: 4096,
-      system:
-        'You are Genie, an AI assistant by Akira AI Data. You are helpful, harmless, and honest. You provide clear, accurate, and thoughtful responses.',
+      max_tokens: 8192,
+      system: `You are Genie, an AI assistant by Akira AI Data. Today's date is ${today}. You are knowledgeable, helpful, and direct. Answer questions confidently and thoroughly. When you know the answer, give it directly without unnecessary caveats. Provide detailed, substantive responses like a knowledgeable expert would.`,
       messages: anthropicMessages,
     });
 
