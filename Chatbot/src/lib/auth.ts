@@ -1,17 +1,10 @@
 import NextAuth from 'next-auth';
 import Google from 'next-auth/providers/google';
 import Credentials from 'next-auth/providers/credentials';
-import { SupabaseAdapter } from '@auth/supabase-adapter';
 import bcrypt from 'bcryptjs';
 import { createServerSupabaseClient } from './supabase';
 
 export const { handlers, auth, signIn, signOut } = NextAuth({
-  adapter: process.env.NEXT_PUBLIC_SUPABASE_URL?.startsWith('https://')
-    ? SupabaseAdapter({
-        url: process.env.NEXT_PUBLIC_SUPABASE_URL,
-        secret: process.env.SUPABASE_SERVICE_ROLE_KEY!,
-      })
-    : undefined,
   session: {
     strategy: 'jwt',
   },
@@ -58,6 +51,35 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
     }),
   ],
   callbacks: {
+    async signIn({ user, account }) {
+      if (account?.provider === 'google') {
+        const supabase = createServerSupabaseClient();
+        const { data: existingUser } = await supabase
+          .from('users')
+          .select('id')
+          .eq('email', user.email!)
+          .single();
+
+        if (existingUser) {
+          user.id = existingUser.id;
+        } else {
+          const { data: newUser } = await supabase
+            .from('users')
+            .insert({
+              email: user.email,
+              name: user.name,
+              image: user.image,
+              emailVerified: new Date().toISOString(),
+            })
+            .select('id')
+            .single();
+
+          if (!newUser) return false;
+          user.id = newUser.id;
+        }
+      }
+      return true;
+    },
     async jwt({ token, user }) {
       if (user) {
         token.id = user.id;
