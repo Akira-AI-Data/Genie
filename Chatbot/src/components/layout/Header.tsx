@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useRef, useEffect } from 'react';
-import { PanelLeft, Plus, LogOut } from 'lucide-react';
+import { PanelLeft, Plus, LogOut, ArrowUpRight } from 'lucide-react';
 import { useSession, signOut } from 'next-auth/react';
 import { useUIStore } from '@/stores/uiStore';
 import { useChatStore } from '@/stores/chatStore';
@@ -13,9 +13,12 @@ export function Header() {
   const { data: session } = useSession();
   const toggleSidebar = useUIStore((s) => s.toggleSidebar);
   const selectedModel = useUIStore((s) => s.selectedModel);
+  const setSelectedModel = useUIStore((s) => s.setSelectedModel);
   const createConversation = useChatStore((s) => s.createConversation);
   const [userMenuOpen, setUserMenuOpen] = useState(false);
   const menuRef = useRef<HTMLDivElement>(null);
+
+  const isMax = selectedModel === 'claude-sonnet-4-20250514';
 
   useEffect(() => {
     function handleClickOutside(e: MouseEvent) {
@@ -43,7 +46,18 @@ export function Header() {
         </IconButton>
       </div>
 
-      <ModelSelector />
+      <div className="flex items-center gap-2">
+        <ModelSelector />
+        {!isMax && (
+          <button
+            onClick={() => setSelectedModel('claude-sonnet-4-20250514')}
+            className="hidden sm:flex items-center gap-1 px-2.5 py-1 rounded-lg text-xs font-medium border border-brand-teal/30 text-brand-teal hover:bg-brand-teal/10 transition-colors"
+          >
+            <ArrowUpRight className="w-3 h-3" />
+            Upgrade
+          </button>
+        )}
+      </div>
 
       <div className="flex items-center gap-1">
         <ThemeToggle />
@@ -61,7 +75,7 @@ export function Header() {
                 className="w-full h-full object-cover"
               />
             ) : (
-              <div className="w-full h-full bg-accent text-white flex items-center justify-center">
+              <div className="w-full h-full bg-brand-teal text-white flex items-center justify-center">
                 {userInitial}
               </div>
             )}
@@ -76,6 +90,23 @@ export function Header() {
                 <div className="text-xs text-muted truncate">
                   {session?.user?.email}
                 </div>
+              </div>
+              <div className="px-4 py-2 border-b border-border">
+                <div className="text-xs text-muted mb-1">Current plan</div>
+                <div className="text-sm font-medium text-foreground">
+                  {isMax ? 'Max' : 'Pro'}
+                </div>
+                {!isMax && (
+                  <button
+                    onClick={() => {
+                      setSelectedModel('claude-sonnet-4-20250514');
+                      setUserMenuOpen(false);
+                    }}
+                    className="text-xs text-brand-teal hover:underline mt-1"
+                  >
+                    Upgrade to Max &rarr;
+                  </button>
+                )}
               </div>
               <button
                 onClick={() => signOut({ callbackUrl: '/login' })}

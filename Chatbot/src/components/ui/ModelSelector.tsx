@@ -1,21 +1,23 @@
 'use client';
 
 import { useState, useRef, useEffect } from 'react';
-import { ChevronDown, Zap, Sparkles } from 'lucide-react';
+import { ChevronDown, Zap, Sparkles, Check } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { useUIStore } from '@/stores/uiStore';
 import { Model, MODEL_LABELS } from '@/types';
 
-const MODEL_OPTIONS: { model: Model; icon: React.ReactNode; description: string }[] = [
-  {
-    model: 'claude-sonnet-4-20250514',
-    icon: <Sparkles className="w-4 h-4" />,
-    description: 'Most capable, best for complex tasks',
-  },
+const MODEL_OPTIONS: { model: Model; icon: React.ReactNode; description: string; badge?: string }[] = [
   {
     model: 'claude-haiku-4-5-20251001',
     icon: <Zap className="w-4 h-4" />,
     description: 'Fast and efficient for everyday tasks',
+    badge: '$9.99/mo',
+  },
+  {
+    model: 'claude-sonnet-4-20250514',
+    icon: <Sparkles className="w-4 h-4" />,
+    description: 'Advanced reasoning for complex tasks',
+    badge: '$19.99/mo',
   },
 ];
 
@@ -46,8 +48,8 @@ export function ModelSelector() {
       </button>
 
       {open && (
-        <div className="absolute top-full mt-1 left-0 w-72 bg-card-bg border border-border rounded-xl shadow-lg py-1 z-50">
-          {MODEL_OPTIONS.map(({ model, icon, description }) => (
+        <div className="absolute top-full mt-1 left-1/2 -translate-x-1/2 w-72 bg-card-bg border border-border rounded-xl shadow-lg py-1 z-50">
+          {MODEL_OPTIONS.map(({ model, icon, description, badge }) => (
             <button
               key={model}
               onClick={() => {
@@ -60,9 +62,19 @@ export function ModelSelector() {
               )}
             >
               <span className="mt-0.5 text-accent">{icon}</span>
-              <div>
-                <div className="text-sm font-medium text-foreground">
-                  {MODEL_LABELS[model]}
+              <div className="flex-1">
+                <div className="flex items-center justify-between">
+                  <span className="text-sm font-medium text-foreground">
+                    {MODEL_LABELS[model]}
+                  </span>
+                  <div className="flex items-center gap-2">
+                    {badge && (
+                      <span className="text-xs text-muted">{badge}</span>
+                    )}
+                    {selectedModel === model && (
+                      <Check className="w-3.5 h-3.5 text-accent" />
+                    )}
+                  </div>
                 </div>
                 <div className="text-xs text-muted">{description}</div>
               </div>
