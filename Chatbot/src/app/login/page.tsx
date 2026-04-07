@@ -2,11 +2,9 @@
 
 import { useState } from 'react';
 import { signIn } from 'next-auth/react';
-import { useRouter } from 'next/navigation';
 import { Sparkles, Mail, Lock, User, Loader2 } from 'lucide-react';
 
 export default function LoginPage() {
-  const router = useRouter();
   const [isSignUp, setIsSignUp] = useState(false);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -49,8 +47,7 @@ export default function LoginPage() {
         return;
       }
 
-      router.push('/chat');
-      router.refresh();
+      window.location.href = '/chat';
     } catch {
       setError('Something went wrong. Please try again.');
       setLoading(false);
