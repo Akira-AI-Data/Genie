@@ -21,13 +21,22 @@ export default auth((req) => {
     return NextResponse.next();
   }
 
-  // Redirect logged-in users away from login page
-  if (pathname === '/login' && isLoggedIn) {
-    return NextResponse.redirect(new URL('/', req.url));
+  // Public pages accessible to everyone
+  const publicPages = ['/', '/pricing'];
+  const isPublicPage = publicPages.includes(pathname);
+
+  // Redirect logged-in users from landing/login to chat
+  if ((pathname === '/login' || pathname === '/') && isLoggedIn) {
+    return NextResponse.redirect(new URL('/chat', req.url));
+  }
+
+  // Allow public pages
+  if (isPublicPage) {
+    return NextResponse.next();
   }
 
   // Redirect unauthenticated users to login
-  if (pathname !== '/login' && !isLoggedIn) {
+  if (!isLoggedIn) {
     return NextResponse.redirect(new URL('/login', req.url));
   }
 

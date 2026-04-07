@@ -37,7 +37,7 @@ export function Sidebar() {
           'fixed md:relative',
           sidebarOpen
             ? 'w-64 translate-x-0'
-            : 'w-0 -translate-x-full md:translate-x-0'
+            : 'w-0 -translate-x-full md:translate-x-0 overflow-hidden'
         )}
       >
         <div className="flex items-center justify-between p-3 flex-shrink-0">

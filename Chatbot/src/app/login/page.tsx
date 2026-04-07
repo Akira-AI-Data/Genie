@@ -49,7 +49,7 @@ export default function LoginPage() {
         return;
       }
 
-      router.push('/');
+      router.push('/chat');
       router.refresh();
     } catch {
       setError('Something went wrong. Please try again.');
@@ -58,7 +58,7 @@ export default function LoginPage() {
   };
 
   const handleGoogleSignIn = () => {
-    signIn('google', { callbackUrl: '/' });
+    signIn('google', { callbackUrl: '/chat' });
   };
 
   return (

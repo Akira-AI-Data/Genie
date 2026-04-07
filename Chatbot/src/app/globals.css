@@ -7,8 +7,8 @@
   --sidebar-bg: #f0efe9;
   --sidebar-hover: #e5e4de;
   --sidebar-active: #dddcd6;
-  --accent: #D97757;
-  --accent-hover: #c56a4e;
+  --accent: #3BBFB0;
+  --accent-hover: #2EA89A;
   --muted: #6b6b6b;
   --muted-foreground: #8a8a8a;
   --border: #e5e5e3;
@@ -28,8 +28,8 @@
   --sidebar-bg: #1f1f1f;
   --sidebar-hover: #2a2a2a;
   --sidebar-active: #333333;
-  --accent: #D97757;
-  --accent-hover: #e08868;
+  --accent: #3BBFB0;
+  --accent-hover: #85DDD0;
   --muted: #999999;
   --muted-foreground: #777777;
   --border: #333333;
@@ -41,6 +41,18 @@
   --card-bg: #242424;
   --scrollbar-thumb: #444444;
   --scrollbar-track: transparent;
+}
+
+:root {
+  --brand-navy: #0A1A35;
+  --brand-navy-light: #0F2447;
+  --brand-teal: #3BBFB0;
+  --brand-teal-light: #85DDD0;
+  --brand-blue: #1B52C4;
+  --brand-bg-light: #FAFFFE;
+  --brand-text-muted: rgba(250, 255, 254, 0.7);
+  --brand-text-secondary: #8AA4BE;
+  --brand-border-light: #D8E8E4;
 }
 
 @theme inline {
@@ -62,6 +74,15 @@
   --color-card-bg: var(--card-bg);
   --color-scrollbar-thumb: var(--scrollbar-thumb);
   --color-scrollbar-track: var(--scrollbar-track);
+  --color-brand-navy: var(--brand-navy);
+  --color-brand-navy-light: var(--brand-navy-light);
+  --color-brand-teal: var(--brand-teal);
+  --color-brand-teal-light: var(--brand-teal-light);
+  --color-brand-blue: var(--brand-blue);
+  --color-brand-bg-light: var(--brand-bg-light);
+  --color-brand-text-muted: var(--brand-text-muted);
+  --color-brand-text-secondary: var(--brand-text-secondary);
+  --color-brand-border-light: var(--brand-border-light);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
 }

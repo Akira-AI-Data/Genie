@@ -34,7 +34,7 @@ export const viewport = {
   initialScale: 1,
   maximumScale: 1,
   userScalable: false,
-  themeColor: '#D97757',
+  themeColor: '#3BBFB0',
 };
 
 export default function RootLayout({
@@ -48,7 +48,7 @@ export default function RootLayout({
         <link rel="apple-touch-icon" href="/icons/icon-192x192.png" />
         <meta name="apple-mobile-web-app-capable" content="yes" />
       </head>
-      <body className="h-full overflow-hidden">
+      <body className="h-full">
         <SessionProvider>
           <ThemeProvider>{children}</ThemeProvider>
         </SessionProvider>
