@@ -22,7 +22,7 @@ export default auth((req) => {
   }
 
   // Public pages accessible to everyone
-  const publicPages = ['/', '/pricing'];
+  const publicPages = ['/', '/pricing', '/login'];
   const isPublicPage = publicPages.includes(pathname);
 
   // Redirect logged-in users from landing/login to chat
